@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Books Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    .left_container, .right_container{
+        width: 45%;
+        display: inline-block;
+        margin:20px;
+        vertical-align: top;
+    }
+    .review_content {
+        text-indent: 20px;
+    }
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Welcome, {{ name }}!</a>
+        <a class="nav-link" href="/add_book">Add Book and Review</a>
+        <a class="nav-link" href="/logout">Log Off</a>
+    </nav>
+    <div class="left_container">
+        <h4>Recent Book Reviews:</h4>
+        {% for review in reviews %}
+            <h5><a href="/books/{{review.book.id}}">{{ review.book.title }}</a></h5>
+            <div class="review_content">
+                <p>Rating: {{ review.rating }}</p>
+                <p><a href="/users/{{review.user.id}}">{{ review.user.fname }}</a> says: {{ review.content }}</p>
+                <p>Posted on {{ review.created_at }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="right_container">
+        <h4>Other Books with Reviews: </h4>
+        <div class="overflow-auto">
+            {% for book in books %}
+            <p><a href="/books/{{book.id}}">{{ book.title }}</a></p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

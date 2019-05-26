@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Book and Review</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+        .left_container, .right_container{
+            width: 45%;
+            display: inline-block;
+            margin:20px;
+            vertical-align: top;
+        }
+        textarea{
+            width:100%;
+        }
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="nav-link" href="/books">Home</a>
+        <a class="nav-link" href="/logout">Log Off</a>
+    </nav>
+    <h4>{{ book.title }}</h4>
+    <h5>Author: {{ book.author.name }}</h5>
+    <div class="left_container">
+        <h4>Reviews:</h4>
+        <hr>
+        <div class="reviews">
+            {% for review in reviews %}
+            <p>Rating: {{ review.rating }}</p>
+            <p><a href="/users/{{review.user.id}}">{{ review.user.fname }}</a> says: {{ review.content }}</p>
+            <p>Posed on {{ review.created_at }}
+                {% if review.user.id == user_id %}
+                <a href="/delete/{{review.id}}">Delete this Review</a>
+                {% endif %}
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="right_container">
+        <h4>Add a Review: </h4>
+        <form action="/add_review" method="POST">
+            {% csrf_token %}
+            <textarea name="content" rows=5></textarea>
+            <p>Rating:
+                <select name="rating">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </p>
+            <input type="submit" value="Submit Review">
+        </form>
+    </div>
+</body>
+</html>
